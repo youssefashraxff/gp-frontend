@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint and format
+        run: |
+          npm run lint
+          npm run format:check
+
+      - name: Schema check (generated types match pinned schemas)
+        run: |
+          npm run generate:types
+          git diff --exit-code -- src/app/shared/schemas
+
+      - name: Type check (strict)
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test -- --watch=false
+
+      - name: Build
+        run: npm run build
