@@ -30,7 +30,7 @@ export interface PhaseResult {
   created_at?: string;
 }
 export interface FieldRef {
-  phase: "research" | "brand_design" | "visuals" | "investment";
+  phase: PhaseName;
   version: number;
   /**
    * e.g. 'target_segments' or 'competitors.pricing'
@@ -39,12 +39,7 @@ export interface FieldRef {
   content_hash: string;
 }
 export interface FieldValue {
-  /**
-   * Any JSON value.
-   */
-  value: {
-    [k: string]: unknown;
-  };
+  value: unknown;
   /**
    * Hash of the canonical JSON of value.
    */
