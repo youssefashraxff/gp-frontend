@@ -11,6 +11,10 @@
 export interface ConceptInput {
   site: SiteLocation;
   client_name?: string;
+  /**
+   * Business types the client is considering. Optional; the research also recommends its own.
+   */
+  business_types?: string[];
   budget_egp?: number;
   /**
    * Free-text preferences from the client.
@@ -21,7 +25,7 @@ export interface SiteLocation {
   /**
    * Human-readable site name or address.
    */
-  name: string;
+  name?: string;
   lat: number;
   lng: number;
 }
